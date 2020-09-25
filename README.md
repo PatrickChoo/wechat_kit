@@ -6,7 +6,30 @@
 [![Pub Package](https://img.shields.io/pub/v/wechat_kit.svg)](https://pub.dartlang.org/packages/wechat_kit)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/v7lin/wechat_kit/blob/master/LICENSE)
 
-flutter版微信SDK
+## flutter版微信SDK
+---
+使用场景：android使用微信支付，iOS使用IAP。
+
+适合在iOS必须使用IAP内购，不能使用第三方支付的，而在android则自由使用第三方支付的情况。
+
+@v7lin 在原仓中也做了iOS的版本，但是将android去掉了。
+
+注意：自用，未经测试
+
+### iOS无支付，android带支付
+```
+  wechat_kit:
+    git:
+      url: https://github.com/patrickchoo/wechat_kit.git
+      ref: ios_nopay
+```
+
+### android及iOS同时带支付
+可以直接使用v7lin的原仓
+https://github.com/rxreader/wechat_kit
+```
+  wechat_kit: ^1.1.1
+```
 
 ## flutter toolkit
 

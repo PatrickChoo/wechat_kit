@@ -39,7 +39,6 @@ static NSString *const METHOD_SHAREWEBPAGE = @"shareWebpage";
 static NSString *const METHOD_SHAREMINIPROGRAM = @"shareMiniProgram";
 static NSString *const METHOD_SUBSCRIBEMSG = @"subscribeMsg";
 static NSString *const METHOD_LAUNCHMINIPROGRAM = @"launchMiniProgram";
-static NSString *const METHOD_PAY = @"pay";
 
 static NSString *const METHOD_ONAUTHRESP = @"onAuthResp";
 static NSString *const METHOD_ONOPENURLRESP = @"onOpenUrlResp";
@@ -47,7 +46,6 @@ static NSString *const METHOD_ONSHAREMSGRESP = @"onShareMsgResp";
 static NSString *const METHOD_ONSUBSCRIBEMSGRESP = @"onSubscribeMsgResp";
 static NSString *const METHOD_ONLAUNCHMINIPROGRAMRESP =
     @"onLaunchMiniProgramResp";
-static NSString *const METHOD_ONPAYRESP = @"onPayResp";
 static NSString *const METHOD_ONAUTHGOTQRCODE = @"onAuthGotQrcode";
 static NSString *const METHOD_ONAUTHQRCODESCANNED = @"onAuthQrcodeScanned";
 static NSString *const METHOD_ONAUTHFINISH = @"onAuthFinish";
@@ -87,12 +85,6 @@ static NSString *const ARGUMENT_KEY_WITHSHARETICKET = @"withShareTicket";
 static NSString *const ARGUMENT_KEY_TEMPLATEID = @"templateId";
 static NSString *const ARGUMENT_KEY_RESERVED = @"reserved";
 static NSString *const ARGUMENT_KEY_TYPE = @"type";
-static NSString *const ARGUMENT_KEY_PARTNERID = @"partnerId";
-static NSString *const ARGUMENT_KEY_PREPAYID = @"prepayId";
-// static NSString *const ARGUMENT_KEY_NONCESTR = @"noncestr";
-// static NSString *const ARGUMENT_KEY_TIMESTAMP = @"timestamp";
-static NSString *const ARGUMENT_KEY_PACKAGE = @"package";
-static NSString *const ARGUMENT_KEY_SIGN = @"sign";
 
 static NSString *const ARGUMENT_KEY_RESULT_ERRORCODE = @"errorCode";
 static NSString *const ARGUMENT_KEY_RESULT_ERRORMSG = @"errorMsg";
@@ -106,7 +98,6 @@ static NSString *const ARGUMENT_KEY_RESULT_ACTION = @"action";
 static NSString *const ARGUMENT_KEY_RESULT_RESERVED = @"reserved";
 static NSString *const ARGUMENT_KEY_RESULT_OPENID = @"openId";
 static NSString *const ARGUMENT_KEY_RESULT_EXTMSG = @"extMsg";
-static NSString *const ARGUMENT_KEY_RESULT_RETURNKEY = @"returnKey";
 static NSString *const ARGUMENT_KEY_RESULT_IMAGEDATA = @"imageData";
 static NSString *const ARGUMENT_KEY_RESULT_AUTHCODE = @"authCode";
 
@@ -156,8 +147,6 @@ static NSString *const ARGUMENT_KEY_RESULT_AUTHCODE = @"authCode";
         [self handleSubscribeMsgCall:call result:result];
     } else if ([METHOD_LAUNCHMINIPROGRAM isEqualToString:call.method]) {
         [self handleLaunchMiniProgramCall:call result:result];
-    } else if ([METHOD_PAY isEqualToString:call.method]) {
-        [self handlePayCall:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -349,22 +338,6 @@ static NSString *const ARGUMENT_KEY_RESULT_AUTHCODE = @"authCode";
     result(nil);
 }
 
-- (void)handlePayCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    PayReq *req = [[PayReq alloc] init];
-    req.partnerId = call.arguments[ARGUMENT_KEY_PARTNERID];
-    req.prepayId = call.arguments[ARGUMENT_KEY_PREPAYID];
-    req.nonceStr = call.arguments[ARGUMENT_KEY_NONCESTR];
-    NSString *timeStamp = call.arguments[ARGUMENT_KEY_TIMESTAMP];
-    req.timeStamp = [timeStamp intValue];
-    req.package = call.arguments[ARGUMENT_KEY_PACKAGE];
-    req.sign = call.arguments[ARGUMENT_KEY_SIGN];
-    [WXApi sendReq:req
-        completion:^(BOOL success){
-            // do nothing
-        }];
-    result(nil);
-}
-
 #pragma mark - AppDelegate
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
@@ -445,14 +418,6 @@ static NSString *const ARGUMENT_KEY_RESULT_AUTHCODE = @"authCode";
                           forKey:ARGUMENT_KEY_RESULT_EXTMSG];
         }
         [_channel invokeMethod:METHOD_ONLAUNCHMINIPROGRAMRESP arguments:dictionary];
-    } else if ([resp isKindOfClass:[PayResp class]]) {
-        // 支付
-        if (resp.errCode == WXSuccess) {
-            PayResp *payResp = (PayResp *)resp;
-            [dictionary setValue:payResp.returnKey
-                          forKey:ARGUMENT_KEY_RESULT_RETURNKEY];
-        }
-        [_channel invokeMethod:METHOD_ONPAYRESP arguments:dictionary];
     }
 }
 

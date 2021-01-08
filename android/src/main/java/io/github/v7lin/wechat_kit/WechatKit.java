@@ -82,7 +82,7 @@ public class WechatKit implements MethodChannel.MethodCallHandler, PluginRegistr
     private static final String METHOD_ONAUTHFINISH = "onAuthFinish";
 
 
-    private static final String ARGUMENT_KEY_APPID = "appId";
+    private static final String ARGUMENT_KEY_APPID = "appid";
     //    private static final String ARGUMENT_KEY_UNIVERSALLINK = "universalLink";
     private static final String ARGUMENT_KEY_SCOPE = "scope";
     private static final String ARGUMENT_KEY_STATE = "state";
@@ -116,8 +116,8 @@ public class WechatKit implements MethodChannel.MethodCallHandler, PluginRegistr
     private static final String ARGUMENT_KEY_TEMPLATEID = "templateId";
     private static final String ARGUMENT_KEY_RESERVED = "reserved";
     private static final String ARGUMENT_KEY_TYPE = "type";
-    private static final String ARGUMENT_KEY_PARTNERID = "partnerId";
-    private static final String ARGUMENT_KEY_PREPAYID = "prepayId";
+    private static final String ARGUMENT_KEY_PARTNERID = "partnerid";
+    private static final String ARGUMENT_KEY_PREPAYID = "prepayid";
     //    private static final String ARGUMENT_KEY_NONCESTR = "noncestr";
     //    private static final String ARGUMENT_KEY_TIMESTAMP = "timestamp";
     private static final String ARGUMENT_KEY_PACKAGE = "package";
